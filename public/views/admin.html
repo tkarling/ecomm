@@ -1,0 +1,10 @@
+<style>
+</style>
+<div>
+    <button id="demo-menu-lower-left" class="mdl-button mdl-js-button mdl-button--icon mdl-button--fab mdl-button--colored" ng-click="gotoDetails()">
+        <i class="material-icons">add</i>
+    </button>
+</div>
+<div ng-repeat="product in products" ng-click="gotoDetails(product)">
+    {{product.product}} {{product.price | currency}} {{product.brand}} {{product.description}}
+</div>
