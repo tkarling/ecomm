@@ -42,6 +42,67 @@ app.get("/api/ecomm/catalogue", function(req, res) {
     });
 });
 
+app.put("/api/ecomm/catalogue", function(req, res) {
+    console.log("put: params: ", req.params, " body: ", req.body,
+        " query: ", req.query, req.query.product);
+    db.catalogue.findAndModify({
+            query:
+            // req.query,
+            {
+                "product": req.query.product
+            },
+            update: {
+                $set: req.body
+            }
+            // new: true
+        },
+        function(err, doc, lastErrorObject) {
+            console.log("put: ", err, doc, lastErrorObject);
+            // res.json(doc);
+            // console.log("put", err, doc);
+            if (err) {
+                res.status(500).json(err);
+            } else {
+                console.log("put: ", doc);
+                res.json(doc);
+            }
+
+        });
+
+
+    // db.catalogue.update({ "product": req.query.id },
+    // 	// req.query,
+    // // {
+    // //     "_id": ObjectId(req.query.id)
+    // // },
+    // req.body, function(err, doc) {
+    //     console.log("put", err, doc);
+    //     if (err) {
+    //         res.status(500).json(err);
+    //     } else {
+    //         console.log("put: ", doc);
+    //         res.json(doc);
+    //     }
+    // });
+});
+
+app.delete("/api/ecomm/catalogue", function(req, res) {
+    console.log("delete: ", req.query, req.query.product);
+    db.catalogue.remove(
+        // req.query, 
+        {
+            "product": req.query.product
+        },
+        function(err, doc) {
+            console.log("delete: err: ", err, " doc: ", doc);
+            if (err) {
+                res.status(500).json(error);
+            } else {
+                res.json(doc);
+            }
+        });
+});
+
 var server = app.listen(nodePort, function() {
     console.log("Listening at address", server.address());
 });

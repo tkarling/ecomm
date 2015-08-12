@@ -1,3 +1,14 @@
-<div ng-repeat="product in products">
+<style>
+.ec-page-content {
+    margin: 4%;
+}
+
+h3 {
+    font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
+    margin: 2%;
+}
+</style>
+
+<h3 class="ec-page-content" ng-repeat="product in products">
 {{product.product}} {{product.price | currency}}
-</div>
+</h3>

@@ -1,1 +1,29 @@
-Details {{productId}}
+<style>
+.ec-page-content {
+    margin: 4%;
+}
+
+h4 {
+    font: bold 24px/1.5 Helvetica, Verdana, sans-serif;
+    margin: 2%;
+}
+
+.ec-submit-button {
+    margin: 4% 0px;
+}
+</style>
+<form class="ec-page-content">
+    <h4>{{title}}</h4>
+    <fieldset>
+        <input type="text" placeholder="product name" ng-model="product.product">
+        <input type="text" placeholder="brand" ng-model="product.brand">
+    </fieldset>
+    <fieldset>
+        <input type="text" placeholder="price" ng-model="product.price">
+        <input type="text" placeholder="description" ng-model="product.description">
+    </fieldset>
+    <p>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored ec-submit-button" ng-click="saveOrAddProduct()">Submit</button>
+    </p>
+</form>
+{{product._id}}

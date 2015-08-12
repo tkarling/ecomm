@@ -1,10 +1,45 @@
 <style>
+* {
+    margin: 0;
+    padding: 0;
+}
+
+h3 {
+    font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
+    margin: 2%;
+}
+
+.ec-add-button {
+    margin: 2%;
+}
+
+.ec-list {
+    margin: 0px 4%;
+}
+
+.ec-list-item {
+    display: flex;
+    flex-direction: row;
+}
 </style>
-<div>
-    <button id="demo-menu-lower-left" class="mdl-button mdl-js-button mdl-button--icon mdl-button--fab mdl-button--colored" ng-click="gotoDetails()">
+<div style="text-align:right;">
+    <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--fab mdl-button--colored ec-add-button" ng-click="gotoDetails()">
         <i class="material-icons">add</i>
     </button>
 </div>
-<div ng-repeat="product in products" ng-click="gotoDetails(product)">
-    {{product.product}} {{product.price | currency}} {{product.brand}} {{product.description}}
+<div class="ec-list-container">
+    <ul class="ec-list">
+        <li class="ec-list-item" ng-if="product.product" ng-repeat="product in products">
+            <div>
+                <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent" ng-click="deleteProduct(product)">
+                    <i class="material-icons">delete</i>
+                </button>
+            </div>
+            <div ng-click="gotoDetails(product)">
+                <h3>{{product.product}}</h3>
+                <p>{{product.price | currency}} {{product.brand}} {{product.description}}
+                </p>
+            </div>
+        </li>
+    </ul>
 </div>
