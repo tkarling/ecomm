@@ -40,7 +40,6 @@ angular.module("myApp")
             var myUrl = url + "?id=" + product._id;
             var dbProduct = {
                 product: product.product,
-                brand: product.brand,
                 price: product.price,
                 description: product.description
             }

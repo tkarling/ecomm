@@ -12,18 +12,17 @@ h4 {
     margin: 4% 0px;
 }
 </style>
-<form class="ec-page-content">
+<form name="myForm" class="ec-page-content" novalidate>
     <h4>{{title}}</h4>
     <fieldset>
-        <input type="text" placeholder="product name" ng-model="product.product">
-        <input type="text" placeholder="brand" ng-model="product.brand">
+        <input type="text" placeholder="product name" ng-model="product.product" required>
+        <input type="number" placeholder="price" ng-model="product.price" required>
     </fieldset>
     <fieldset>
-        <input type="text" placeholder="price" ng-model="product.price">
-        <input type="text" placeholder="description" ng-model="product.description">
+        <input type="text" placeholder="description" ng-model="product.description" required>
     </fieldset>
     <p>
-        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored ec-submit-button" ng-click="saveOrAddProduct()">Submit</button>
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored ec-submit-button" ng-click="saveOrAddProduct()" type="submit" ng-disabled="myForm.$invalid">Submit</button>
     </p>
 </form>
-{{product._id}}
+

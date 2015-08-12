@@ -19,9 +19,9 @@ module.exports = {
     },
 
     read: function(req, res) {
-    	console.log("read");
+    	// console.log("read");
         db.catalogue.find(function(err, docs) {
-        	console.log("moi");
+        	// console.log("moi");
             if (!err) {
                 console.log("get: ", docs);
                 res.json(docs);
