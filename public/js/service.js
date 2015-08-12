@@ -22,7 +22,7 @@ angular.module("myApp")
             return this.getProducts().then(function() {
                 for (var i = 0; i < products.length; i++) {
                     if (products[i]._id === productId) {
-                    	orginalProduct = products[i].product;
+                        orginalProduct = products[i];
                         return (products[i]);
                     }
                 }
@@ -37,8 +37,15 @@ angular.module("myApp")
         };
 
         this.saveProduct = function(product) {
-            return $http.post(url + "?product=" + orginalProduct,
-                product).then(function(response) {
+            var myUrl = url + "?id=" + product._id;
+            var dbProduct = {
+                product: product.product,
+                brand: product.brand,
+                price: product.price,
+                description: product.description
+            }
+            // console.log("this.saveProduct", product._id, myUrl, dbProduct);
+            return $http.put(myUrl, dbProduct).then(function(response) {
                 // console.log("this.saveProduct", response);
                 return response.data;
             });
@@ -46,8 +53,9 @@ angular.module("myApp")
         };
 
         this.deleteProduct = function(product) {
-            return $http.delete(url + "?product=" + orginalProduct,
-                product).then(function(response) {
+            var myUrl = url + "?id=" + product._id;
+            // console.log("this.deleteProduct", myUrl);
+            return $http.delete(myUrl).then(function(response) {
                 // console.log("this.deleteProduct", response);
                 return response.data;
             });

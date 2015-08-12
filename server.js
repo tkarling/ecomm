@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.post("/api/ecomm/catalogue", function(req, res) {
-    console.log("post: ", req.body);
+    // console.log("post: ", req.body);
     db.catalogue.insert(req.body, function(err, result) {
         if (err) {
             res.status(500).json(error);
@@ -43,23 +43,23 @@ app.get("/api/ecomm/catalogue", function(req, res) {
 });
 
 app.put("/api/ecomm/catalogue", function(req, res) {
-    console.log("put: params: ", req.params, " body: ", req.body,
-        " query: ", req.query, req.query.product);
+    // console.log("put: params: ", req.params, " body: ", req.body,
+    //     " query: ", req.query, req.query.product);
+    if (!req.query.id) {
+        res.status(400).send('id query needed!');
+    }
+    var query = {
+        _id: mongojs.ObjectId(req.query.id)
+    };
+    var update = {
+        $set: req.body
+    };
     db.catalogue.findAndModify({
-            query:
-            // req.query,
-            {
-                "product": req.query.product
-            },
-            update: {
-                $set: req.body
-            }
-            // new: true
+        query: query,
+        update: update
         },
         function(err, doc, lastErrorObject) {
-            console.log("put: ", err, doc, lastErrorObject);
-            // res.json(doc);
-            // console.log("put", err, doc);
+            // console.log("put: ", err, doc, lastErrorObject);
             if (err) {
                 res.status(500).json(err);
             } else {
@@ -69,9 +69,8 @@ app.put("/api/ecomm/catalogue", function(req, res) {
 
         });
 
-
     // db.catalogue.update({ "product": req.query.id },
-    // 	// req.query,
+    //  // req.query,
     // // {
     // //     "_id": ObjectId(req.query.id)
     // // },
@@ -88,19 +87,19 @@ app.put("/api/ecomm/catalogue", function(req, res) {
 
 app.delete("/api/ecomm/catalogue", function(req, res) {
     console.log("delete: ", req.query, req.query.product);
-    db.catalogue.remove(
-        // req.query, 
-        {
-            "product": req.query.product
-        },
-        function(err, doc) {
-            console.log("delete: err: ", err, " doc: ", doc);
-            if (err) {
-                res.status(500).json(error);
-            } else {
-                res.json(doc);
-            }
-        });
+    if (!req.query.id) {
+        res.status(400).send('id query needed!');
+    }
+    var query = {
+        _id: mongojs.ObjectId(req.query.id)
+    };
+    db.catalogue.remove(query, function(err, response) {
+        if (err) {
+            res.status(500).json(err);
+        } else {
+            res.status(200).json(response);
+        }
+    });
 });
 
 var server = app.listen(nodePort, function() {
