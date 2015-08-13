@@ -1,5 +1,6 @@
 angular.module("myApp")
-    .controller("ProductsController", function($scope, dataService) {
+    .controller("ProductsController", function($scope, dataService, 
+        dispatcher, cartStore, cartActions) {
 
         $scope.getProducts = function() {
             dataService.getProducts().then(function(data) {
@@ -7,6 +8,30 @@ angular.module("myApp")
             });
         };
         $scope.getProducts();
+        $scope.cartActions = dispatcher;
+
+        $scope.addToCart = function(product) {
+            // console.log("$scope.addToCart", product);
+            $scope.cartActions.addItem(product);
+        };
+
+        // Cart Controller
+        $scope.cartStore = cartStore;;
+        $scope.cartActions = cartActions;
+
+        cartStore.addListener(function() {
+            $scope.resetItems();
+        });
+
+        $scope.resetItems = function() {
+            $scope.items = $scope.cartStore.cartItems; // remover ()
+            // console.log("$scope.resetItems", $scope.cartStore.cartItems, $scope.items);
+        };
+        $scope.resetItems();
+
+        $scope.removeItem = function(item) {
+            //to be implemented
+        };
 
     })
     .controller("AdminController", function($scope, $location, dataService) {
@@ -23,10 +48,10 @@ angular.module("myApp")
         };
 
         $scope.deleteProduct = function(product) {
-        	// console.log("$scope.deleteProduct", product);
-        	dataService.deleteProduct(product).then(function(response) {
-        		$scope.getProducts();
-        	});
+            // console.log("$scope.deleteProduct", product);
+            dataService.deleteProduct(product).then(function(response) {
+                $scope.getProducts();
+            });
         };
 
 

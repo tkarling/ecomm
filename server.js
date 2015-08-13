@@ -14,15 +14,26 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // setup MONGOJS w following
-// var ecommCtrl = require('./controllers/ecommWMongo');
+// var ProductCtrl = require('./controllers/ecommWMongo');
 
 // setup MONGOOSE w following
-var ecommCtrl = require('./controllers/ecommCtrl');
+var ProductCtrl = require('./controllers/ProductCtrl');
+var CartCtrl = require('./controllers/CartCtrl');
 
-app.post("/api/ecomm/catalogue", ecommCtrl.create);
-app.get("/api/ecomm/catalogue", ecommCtrl.read);
-app.put("/api/ecomm/catalogue", ecommCtrl.update);
-app.delete("/api/ecomm/catalogue", ecommCtrl.delete);
+app.post("/api/ecomm/catalogue", ProductCtrl.create);
+app.get("/api/ecomm/catalogue", ProductCtrl.read);
+app.put("/api/ecomm/catalogue", ProductCtrl.update);
+app.delete("/api/ecomm/catalogue", ProductCtrl.delete);
+
+app.post("/api/ecomm/cart", CartCtrl.create);
+app.get("/api/ecomm/cart", CartCtrl.read);
+app.put("/api/ecomm/cart", CartCtrl.update);
+app.delete("/api/ecomm/cart", CartCtrl.delete);
+
+app.post("/api/ecomm/cart/:id/order", CartCtrl.createOrder);
+app.put("/api/ecomm/cart/:id/order", CartCtrl.updateOrder);
+app.delete("/api/ecomm/cart/:id/order", CartCtrl.deleteOrder);
+
 
 // MONGOOSE specific stuff starts
 var mongoose = require('mongoose');

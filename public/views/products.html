@@ -8,7 +8,26 @@ h3 {
     margin: 2%;
 }
 </style>
-
-<h3 class="ec-page-content" ng-repeat="product in products">
+<!-- <h3 class="ec-page-content" ng-repeat="product in products">
 {{product.product}} {{product.price | currency}}
-</h3>
+</h3> -->
+<table>
+    <tr ng-repeat="product in products">
+        <td>{{product.product}}</td>
+        <td>{{product.price | currency}}</td>
+        <td>
+            <button ng-click="addToCart(product)">Add to Cart</button>
+        </td>
+    </tr>
+</table>
+<h4>Cart</h4>
+<table>
+    <tr ng-repeat="item in items track by $id(item)">
+        <td>{{item.catalogItem.product}}</td>
+        <td>{{item.catalogItem.price | currency}}</td>
+        <td>{{item.qty}}</td>
+        <td>
+            <button ng-click="cart.removeItem(item)">x</button>
+        </td>
+    </tr>
+</table>
