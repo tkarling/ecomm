@@ -12,11 +12,12 @@ angular.module("myApp")
             }
         };
     })
-    .service("dispatcher", function() {
+    .service("dispatcher", function(cartService) {
         var listeners = [];
 
         this.emit = function(event) {
             listeners.forEach(function(listener) {
+                //console.log("calling listener", listener);
                 listener(event);
             });
         };
@@ -28,42 +29,51 @@ angular.module("myApp")
 
         // CartStore specific STARTS
 
-        this.cartItems = [];
+        var data = {cartItems:[]};
+
+        this.getCartItems = function() {
+            return data.cartItems;
+        }
 
         var indexOfItem = function(cartItems, item) {
        		// console.log("itemAlreadyInCart", cartItems.length, cartItems, item);
         	for(var i = 0; i < cartItems.length; i++) {
         		// console.log("itemAlreadyInCart", cartItems[i], item);
-        		if(item.product === cartItems[i].catalogItem.product) {
+        		if(item.product === cartItems[i].product.product) {
         			return i;
         		}
         	}
         	return -1;
-        }
+        };
 
-        this.addItem = function(catalogItem) {
-            // console.log("this.addItem", catalogItem);
-            var items = this.cartItems;
-            var index = indexOfItem(items, catalogItem);
+        this.addItem = function(product) {
+            var items = data.cartItems;
+            var index = indexOfItem(items, product);
             if (index === -1) { 
-                this.cartItems.push({
-                    qty: 1,
-                    catalogItem: catalogItem
+                data.cartItems.push({
+                    amount: 1,
+                    product: product
                 });
             } else { // is already in cart !!!!!
-                items[index].qty += 1;
+                items[index].amount += 1;
             }
             // console.log("this.addItem cartItems", this.cartItems);
         };
 
         this.removeItem = function(cartItem) {
-            var index = this.cartItems.indexOf(cartItem);
-            this.cartItems.splice(index, 1);
-        }
+            var index = data.cartItems.indexOf(cartItem);
+            data.cartItems.splice(index, 1);
+        };
 
         this.emitChange = function() {
-            this.emit("change");
-        }
+            var self = this;
+            return cartService.getCartItems().then(function(cartItems) {
+                data.cartItems = cartItems;
+                //console.log("emiting change", data.cartItems);
+                self.emit("change");
+            });
+        };
+        this.emitChange();
     })
     .factory("cartStore", function(dispatcher) {
         // var cartStore = new CartStore();
@@ -87,6 +97,8 @@ angular.module("myApp")
         //expose only the public interface
         return {
             addListener: cartStore.addListener,
-            cartItems: cartStore.cartItems
+            getCartItems: function() {
+                return cartStore.getCartItems();
+            }
         };
     });

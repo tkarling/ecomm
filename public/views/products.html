@@ -23,9 +23,9 @@ h3 {
 <h4>Cart</h4>
 <table>
     <tr ng-repeat="item in items track by $id(item)">
-        <td>{{item.catalogItem.product}}</td>
-        <td>{{item.catalogItem.price | currency}}</td>
-        <td>{{item.qty}}</td>
+        <td>{{item.product.product}}</td>
+        <td>{{item.product.price | currency}}</td>
+        <td>{{item.amount}}</td>
         <td>
             <button ng-click="cart.removeItem(item)">x</button>
         </td>

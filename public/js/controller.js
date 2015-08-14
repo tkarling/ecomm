@@ -1,9 +1,9 @@
 angular.module("myApp")
-    .controller("ProductsController", function($scope, dataService, 
-        dispatcher, cartStore, cartActions) {
+    .controller("ProductsController", function($scope, catalogService, 
+        dispatcher, cartStore, cartActions, cartService) {
 
         $scope.getProducts = function() {
-            dataService.getProducts().then(function(data) {
+            catalogService.getProducts().then(function(data) {
                 $scope.products = data;
             });
         };
@@ -15,8 +15,7 @@ angular.module("myApp")
             $scope.cartActions.addItem(product);
         };
 
-        // Cart Controller
-        $scope.cartStore = cartStore;;
+        $scope.cartStore = cartStore;
         $scope.cartActions = cartActions;
 
         cartStore.addListener(function() {
@@ -24,8 +23,9 @@ angular.module("myApp")
         });
 
         $scope.resetItems = function() {
-            $scope.items = $scope.cartStore.cartItems; // remover ()
-            // console.log("$scope.resetItems", $scope.cartStore.cartItems, $scope.items);
+            //console.log("$scope.cartStore",  $scope.cartStore);
+            $scope.items = $scope.cartStore.getCartItems(); // remover ()
+            //console.log("$scope.resetItems", $scope.cartStore.cartItems, $scope.items);
         };
         $scope.resetItems();
 
@@ -34,10 +34,10 @@ angular.module("myApp")
         };
 
     })
-    .controller("AdminController", function($scope, $location, dataService) {
+    .controller("AdminController", function($scope, $location, catalogService) {
 
         $scope.getProducts = function() {
-            dataService.getProducts(true).then(function(data) {
+            catalogService.getProducts(true).then(function(data) {
                 $scope.products = data;
             });
         };
@@ -49,20 +49,20 @@ angular.module("myApp")
 
         $scope.deleteProduct = function(product) {
             // console.log("$scope.deleteProduct", product);
-            dataService.deleteProduct(product).then(function(response) {
+            catalogService.deleteProduct(product).then(function(response) {
                 $scope.getProducts();
             });
         };
 
 
     })
-    .controller("DetailsController", function($scope, $routeParams, $location, dataService) {
+    .controller("DetailsController", function($scope, $routeParams, $location, catalogService) {
         $scope.productId = $routeParams.productId;
         $scope.title = $scope.productId === "add" ? "Add Product" : "Product Details";
 
         $scope.product = {};
         if ($scope.productId !== "add") {
-            dataService.getProduct($scope.productId).then(function(product) {
+            catalogService.getProduct($scope.productId).then(function(product) {
                 $scope.product = product;
             })
         }
@@ -70,9 +70,9 @@ angular.module("myApp")
         $scope.saveOrAddProduct = function() {
             var promise;
             if ($scope.productId === "add") {
-                promise = dataService.addProduct($scope.product);
+                promise = catalogService.addProduct($scope.product);
             } else {
-                promise = dataService.saveProduct($scope.product);
+                promise = catalogService.saveProduct($scope.product);
             }
             promise.then(function() {
                 $location.path("/admin");

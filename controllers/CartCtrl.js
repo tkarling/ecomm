@@ -10,6 +10,7 @@ module.exports = {
         });
     },
     read: function(req, res) {
+        console.log("cart read", req.params, req.query);
         Cart.find(req.query)
             .populate("order.product")
             .exec(function(err, result) {

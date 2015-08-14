@@ -1,5 +1,5 @@
 angular.module("myApp")
-    .service("dataService", function($http, $q) {
+    .service("catalogService", function($http, $q) {
         var url = "http://localhost:3038/api/ecomm/catalogue";
 
         var products = [];
