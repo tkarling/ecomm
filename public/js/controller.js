@@ -1,6 +1,18 @@
 angular.module("myApp")
-    .controller("ProductsController", function($scope, catalogService, 
+    .controller("ProductsController", function($scope, $window, catalogService,
         cartActions, cartStore, cartService) { // dispatcher,
+
+        $scope.showCart = $window.innerWidth > 600;
+        //console.log('set', $scope.showCart, $window.innerWidth );
+        $window.onresize = function() {
+            $scope.showCart = $window.innerWidth > 600;
+            //console.log('window was resized', $scope.showCart, $window.innerWidth );
+            $scope.$apply();
+        };
+
+        $scope.toggleShowCart = function(value) {
+            $scope.showCart = value;
+        }
 
         $scope.getProducts = function() {
             catalogService.getProducts().then(function(data) {

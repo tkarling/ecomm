@@ -10,3 +10,8 @@
     margin: auto;
     max-width: 1000px;
 }
+
+h3 {
+    font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
+    margin: 2%;
+}

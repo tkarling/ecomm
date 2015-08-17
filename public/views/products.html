@@ -1,34 +1,54 @@
 <style>
-    .ec-page-content {
-        margin: auto;
-        max-width: 1000px;
+    thead tr td {
+        font-weight: bold;
     }
 
-    h3 {
-        font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
-        margin: 2%;
+    .ec-card {
+        min-height: 0px;
     }
 
     .ec-table {
-        margin: 2% auto;
+        width: 100%;
+    }
+
+    .ec-text-column {
+        max-width: 100px;
+        overflow: scroll;
+    }
+
+    .mdl-data-table td:first-of-type {
+        padding-left: 18px;
+    }
+
+    @media screen and (min-width: 600px) {
+        #show-hide-buttons {
+            display: none;
+        }
     }
 </style>
 <div class="mdl-grid ec-page-content">
-    <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-desktop mdl-card mdl-shadow--2dp">
-        <h3>Cart</h3>
+    <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-desktop mdl-card mdl-shadow--2dp ec-card">
+        <h3>
+            <span id="show-hide-buttons">
+                <button ng-if="!showCart" class="mdl-button mdl-js-button mdl-button--primary"
+                        ng-click="toggleShowCart(true)">Show
+                </button>
+                <button ng-if="showCart" class="mdl-button mdl-js-button mdl-button--primary"
+                        ng-click="toggleShowCart(false)">Hide
+                </button>
+            </span>
+            <span>Cart</span>
+        </h3>
         <table class="mdl-data-table mdl-js-data-table ec-table">
             <thead>
-            <strong>
             <tr>
-                <td>Totals</td>
+                <td>Total</td>
                 <td></td>
                 <td>{{totalPrice | currency}}</td>
-                <td>{{totalCount}}</td>
+                <td>{{totalCount}}<span ng-if="! showCart"> items</span></td>
             </tr>
-            </strong>
-
             </thead>
-            <tbody>
+            <tbody ng-if="showCart">
             <tr ng-repeat="item in items track by $id(item)">
                 <td>
                     <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent"
@@ -37,7 +57,7 @@
                     </button>
                     <!--<button ng-click="removeItem(item)">x</button>-->
                 </td>
-                <td class="mdl-data-table__cell--non-numeric">{{item.product.product}}</td>
+                <td class="mdl-data-table__cell--non-numeric ec-text-column">{{item.product.product}}</td>
                 <td>{{item.product.price | currency}}</td>
                 <td>{{item.amount}}</td>
             </tr>
@@ -49,15 +69,15 @@
         <table class="mdl-data-table mdl-js-data-table ec-table">
             <tr ng-repeat="product in products">
                 <td>
-                <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
-                        ng-click="addToCart(product)">
-                    <i class="material-icons" style="top:40%;">add shopping cart</i>
-                </button>
+                    <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+                            ng-click="addToCart(product)">
+                        <i class="material-icons" style="top:40%;">add shopping cart</i>
+                    </button>
                 </td>
-                <td class="mdl-data-table__cell--non-numeric">{{product.product}}</td>
+                <td class="mdl-data-table__cell--non-numeric ec-text-column">{{product.product}}</td>
                 <td>{{product.price | currency}}</td>
                 <!--<td>-->
-                    <!--<button ng-click="addToCart(product)">Add to Cart</button>-->
+                <!--<button ng-click="addToCart(product)">Add to Cart</button>-->
                 <!--</td>-->
             </tr>
         </table>
