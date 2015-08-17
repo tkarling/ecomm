@@ -4,18 +4,26 @@ var REMOVE_ITEM = "REMOVE_ITEM";
 angular.module("myApp")
     .factory("cartActions", function(dispatcher) {
         return {
-            addItem(item) {
+            addItem: function (item) {
                 dispatcher.emit({
                     actionType: ADD_ITEM,
                     item: item
                 })
-            }
-        };
+            },
+            removeItem: function(item) {
+            dispatcher.emit({
+                actionType: REMOVE_ITEM,
+                item: item
+            })
+        }
+
+    };
     })
     .service("dispatcher", function(cartService) {
         var listeners = [];
 
         this.emit = function(event) {
+            //console.log("emit called", event);
             listeners.forEach(function(listener) {
                 //console.log("calling listener", listener);
                 listener(event);
@@ -50,9 +58,9 @@ angular.module("myApp")
             var items = data.cartItems;
             var index = indexOfItem(items, product);
             if (index === -1) { 
-                data.cartItems.push({
+                cartService.addToCart({
                     amount: 1,
-                    product: product
+                    product: product._id
                 });
             } else { // is already in cart !!!!!
                 items[index].amount += 1;
@@ -60,9 +68,10 @@ angular.module("myApp")
             // console.log("this.addItem cartItems", this.cartItems);
         };
 
-        this.removeItem = function(cartItem) {
-            var index = data.cartItems.indexOf(cartItem);
-            data.cartItems.splice(index, 1);
+        this.removeItem = function(order) {
+            //var index = data.cartItems.indexOf(cartItem);
+            //data.cartItems.splice(index, 1);
+            cartService.deleteFromCart(order);
         };
 
         this.emitChange = function() {

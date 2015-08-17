@@ -14,11 +14,13 @@ var schema = new mongoose.Schema({
     order: [{
         product: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Product"
+            ref: "Product",
+            required: true
         },
         amount: {
             type: Number,
-            min: 0
+            min: 0,
+            required: true
         }
     }]
 

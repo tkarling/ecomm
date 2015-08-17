@@ -7,10 +7,10 @@ angular.module("myApp")
 
         var cartItems = [];
         var cartInfo = {};
-        var cartId = "55cd04861e851d8f331465dd";
+        var cartId = "55ce5775727a3cf934c2556d";
 
         this.setCart = function() {
-            cartId = "55cd04861e851d8f331465dd";
+            cartId = "55ce5775727a3cf934c2556d";
         };
 
         this.getCartItems = function(mustUpdate) {
@@ -29,5 +29,24 @@ angular.module("myApp")
             })
         };
         this.getCartItems();
+
+        this.addToCart = function(order) {
+            var sendUrl = url + "/" + cartId + "/order";
+            return $http.post(sendUrl, order).then(function(response) {
+                 //console.log("this.addToCart", response);
+                return response.data;
+            });
+        };
+
+        this.deleteFromCart = function(order) {
+            var sendUrl = url + "/" + cartId + "/order?id=" + order._id;
+            // console.log("this.deleteFromCart", sendUrl);
+            return $http.delete(sendUrl).then(function(response) {
+                // console.log("this.deleteFromCart", response);
+                return response.data;
+            });
+
+        };
+
 
     });

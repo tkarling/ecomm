@@ -1,6 +1,6 @@
 angular.module("myApp")
     .controller("ProductsController", function($scope, catalogService, 
-        dispatcher, cartStore, cartActions, cartService) {
+        cartActions, cartStore, cartService) { // dispatcher,
 
         $scope.getProducts = function() {
             catalogService.getProducts().then(function(data) {
@@ -8,7 +8,7 @@ angular.module("myApp")
             });
         };
         $scope.getProducts();
-        $scope.cartActions = dispatcher;
+        //$scope.cartActions = dispatcher;
 
         $scope.addToCart = function(product) {
             // console.log("$scope.addToCart", product);
@@ -22,15 +22,26 @@ angular.module("myApp")
             $scope.resetItems();
         });
 
+        var countTotals = function(newValue, oldValue) {
+            $scope.totalPrice = 0;
+            $scope.totalCount = 0;
+            $scope.items.forEach(function(element, index, array) {
+                //console.log("$scope.totalPrice", $scope.totalPrice, element);
+                $scope.totalPrice += element.product.price;
+                $scope.totalCount += element.amount;
+            })
+        };
+
         $scope.resetItems = function() {
             //console.log("$scope.cartStore",  $scope.cartStore);
             $scope.items = $scope.cartStore.getCartItems(); // remover ()
             //console.log("$scope.resetItems", $scope.cartStore.cartItems, $scope.items);
+            countTotals();
         };
         $scope.resetItems();
 
-        $scope.removeItem = function(item) {
-            //to be implemented
+        $scope.removeItem = function(order) {
+           $scope.cartActions.removeItem(order);
         };
 
     })

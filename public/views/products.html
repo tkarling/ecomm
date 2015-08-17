@@ -1,33 +1,65 @@
 <style>
-.ec-page-content {
-    margin: 4%;
-}
+    .ec-page-content {
+        margin: auto;
+        max-width: 1000px;
+    }
 
-h3 {
-    font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
-    margin: 2%;
-}
+    h3 {
+        font: bold 20px/1.5 Helvetica, Verdana, sans-serif;
+        margin: 2%;
+    }
+
+    .ec-table {
+        margin: 2% auto;
+    }
 </style>
-<!-- <h3 class="ec-page-content" ng-repeat="product in products">
-{{product.product}} {{product.price | currency}}
-</h3> -->
-<table>
-    <tr ng-repeat="product in products">
-        <td>{{product.product}}</td>
-        <td>{{product.price | currency}}</td>
-        <td>
-            <button ng-click="addToCart(product)">Add to Cart</button>
-        </td>
-    </tr>
-</table>
-<h4>Cart</h4>
-<table>
-    <tr ng-repeat="item in items track by $id(item)">
-        <td>{{item.product.product}}</td>
-        <td>{{item.product.price | currency}}</td>
-        <td>{{item.amount}}</td>
-        <td>
-            <button ng-click="cart.removeItem(item)">x</button>
-        </td>
-    </tr>
-</table>
+<div class="mdl-grid ec-page-content">
+    <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-desktop mdl-card mdl-shadow--2dp">
+        <h3>Cart</h3>
+        <table class="mdl-data-table mdl-js-data-table ec-table">
+            <thead>
+            <strong>
+            <tr>
+                <td>Totals</td>
+                <td></td>
+                <td>{{totalPrice | currency}}</td>
+                <td>{{totalCount}}</td>
+            </tr>
+            </strong>
+
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in items track by $id(item)">
+                <td>
+                    <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent"
+                            ng-click="removeItem(item)">
+                        <i class="material-icons">delete</i>
+                    </button>
+                    <!--<button ng-click="removeItem(item)">x</button>-->
+                </td>
+                <td class="mdl-data-table__cell--non-numeric">{{item.product.product}}</td>
+                <td>{{item.product.price | currency}}</td>
+                <td>{{item.amount}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-desktop mdl-card mdl-shadow--2dp">
+        <h3>Products</h3>
+        <table class="mdl-data-table mdl-js-data-table ec-table">
+            <tr ng-repeat="product in products">
+                <td>
+                <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored"
+                        ng-click="addToCart(product)">
+                    <i class="material-icons" style="top:40%;">add shopping cart</i>
+                </button>
+                </td>
+                <td class="mdl-data-table__cell--non-numeric">{{product.product}}</td>
+                <td>{{product.price | currency}}</td>
+                <!--<td>-->
+                    <!--<button ng-click="addToCart(product)">Add to Cart</button>-->
+                <!--</td>-->
+            </tr>
+        </table>
+    </div>
+</div>
