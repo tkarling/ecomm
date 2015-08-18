@@ -39,7 +39,7 @@ angular.module("myApp")
             $scope.totalCount = 0;
             $scope.items.forEach(function(element, index, array) {
                 //console.log("$scope.totalPrice", $scope.totalPrice, element);
-                $scope.totalPrice += element.product.price;
+                $scope.totalPrice += (element.product.price * element.amount);
                 $scope.totalCount += element.amount;
             })
         };

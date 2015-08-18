@@ -7,10 +7,10 @@ angular.module("myApp")
 
         var cartItems = [];
         var cartInfo = {};
-        var cartId = "55ce5775727a3cf934c2556d";
+        var cartId = "55ce6b4e4693372b4910125d";
 
         this.setCart = function() {
-            cartId = "55ce5775727a3cf934c2556d";
+            cartId = "55ce6b4e4693372b4910125d";
         };
 
         this.getCartItems = function(mustUpdate) {
@@ -30,10 +30,14 @@ angular.module("myApp")
         };
         this.getCartItems();
 
-        this.addToCart = function(order) {
+        this.addToCart = function(product) {
             var sendUrl = url + "/" + cartId + "/order";
-            return $http.post(sendUrl, order).then(function(response) {
-                 //console.log("this.addToCart", response);
+            var newOrder = {
+                product: product._id,
+                amount: 1
+            }
+            return $http.post(sendUrl, newOrder).then(function(response) {
+                //console.log("this.addToCart", response);
                 return response.data;
             });
         };
@@ -46,6 +50,20 @@ angular.module("myApp")
                 return response.data;
             });
 
+        };
+
+        this.increaseAmount = function(order) {
+            var sendUrl = url + "/" + cartId + "/order?id=" + order._id;
+            var orderUpdates = {
+                "_id": order._id,
+                "product": order.product._id,
+                "amount": order.amount + 1
+            }
+            //console.log("this.updateCartItem", sendUrl, orderUpdates);
+            return $http.put(sendUrl, orderUpdates).then(function(response) {
+                //console.log("this.updateCartItem", response);
+                return response.data;
+            });
         };
 
 

@@ -58,12 +58,9 @@ angular.module("myApp")
             var items = data.cartItems;
             var index = indexOfItem(items, product);
             if (index === -1) { 
-                cartService.addToCart({
-                    amount: 1,
-                    product: product._id
-                });
+                cartService.addToCart(product);
             } else { // is already in cart !!!!!
-                items[index].amount += 1;
+                cartService.increaseAmount(items[index]);
             }
             // console.log("this.addItem cartItems", this.cartItems);
         };

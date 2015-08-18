@@ -72,12 +72,6 @@ module.exports = {
                 if (err) return res.status(500).send(err);
                 res.send(result);
             });
-
-         //console.log("update", req.query.id, req.body);
-         //Cart.findByIdAndUpdate(req.query.id, req.body, function(err, result) {
-         //    if (err) return res.status(500).send(err);
-         //    else res.send(result);
-         //});
     },
 
     deleteOrder: function(req, res) {
