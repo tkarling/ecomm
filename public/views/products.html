@@ -45,21 +45,20 @@
                 <td>Total</td>
                 <td></td>
                 <td>{{totalPrice | currency}}</td>
-                <td>{{totalCount}}<span ng-if="! showCart"> items</span></td>
+                <td>{{totalCount}}<span ng-if="! showCart"> orders</span></td>
             </tr>
             </thead>
             <tbody ng-if="showCart">
-            <tr ng-repeat="item in items track by $id(item)">
+            <tr ng-repeat="order in orders track by $id(order)">
                 <td>
                     <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--accent"
-                            ng-click="removeItem(item)">
+                            ng-click="removeOrder(order)">
                         <i class="material-icons">delete</i>
                     </button>
-                    <!--<button ng-click="removeItem(item)">x</button>-->
                 </td>
-                <td class="mdl-data-table__cell--non-numeric ec-text-column">{{item.product.product}}</td>
-                <td>{{item.product.price | currency}}</td>
-                <td>{{item.amount}}</td>
+                <td class="mdl-data-table__cell--non-numeric ec-text-column">{{order.product.product}}</td>
+                <td>{{order.product.price | currency}}</td>
+                <td>{{order.amount}}</td>
             </tr>
             </tbody>
         </table>
@@ -76,9 +75,6 @@
                 </td>
                 <td class="mdl-data-table__cell--non-numeric ec-text-column">{{product.product}}</td>
                 <td>{{product.price | currency}}</td>
-                <!--<td>-->
-                <!--<button ng-click="addToCart(product)">Add to Cart</button>-->
-                <!--</td>-->
             </tr>
         </table>
     </div>

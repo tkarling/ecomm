@@ -24,7 +24,7 @@ angular.module("myApp")
 
         $scope.addToCart = function(product) {
             // console.log("$scope.addToCart", product);
-            $scope.cartActions.addItem(product);
+            $scope.cartActions.addOrder(product);
         };
 
         $scope.cartStore = cartStore;
@@ -37,7 +37,7 @@ angular.module("myApp")
         var countTotals = function(newValue, oldValue) {
             $scope.totalPrice = 0;
             $scope.totalCount = 0;
-            $scope.items.forEach(function(element, index, array) {
+            $scope.orders.forEach(function(element, index, array) {
                 //console.log("$scope.totalPrice", $scope.totalPrice, element);
                 $scope.totalPrice += (element.product.price * element.amount);
                 $scope.totalCount += element.amount;
@@ -46,14 +46,14 @@ angular.module("myApp")
 
         $scope.resetItems = function() {
             //console.log("$scope.cartStore",  $scope.cartStore);
-            $scope.items = $scope.cartStore.getCartItems(); // remover ()
-            //console.log("$scope.resetItems", $scope.cartStore.cartItems, $scope.items);
+            $scope.orders = $scope.cartStore.getOrders(); // remover ()
+            //console.log("$scope.resetItems", $scope.cartStore.orders, $scope.orders);
             countTotals();
         };
         $scope.resetItems();
 
-        $scope.removeItem = function(order) {
-           $scope.cartActions.removeItem(order);
+        $scope.removeOrder = function(order) {
+           $scope.cartActions.removeOrder(order);
         };
 
     })

@@ -13,7 +13,7 @@ angular.module("myApp")
             cartId = "55ce6b4e4693372b4910125d";
         };
 
-        this.getCartItems = function(mustUpdate) {
+        this.getOrders = function(mustUpdate) {
             //if (!mustUpdate && products.length > 0) {
             //    // console.log("Exist", products);
             //    return $q.when(products);
@@ -24,11 +24,11 @@ angular.module("myApp")
                 cartInfo.user = response.data[0].user;
                 cartInfo.data = response.data[0].date;
                 cartItems = response.data[0].order;
-                //console.log("cartService cartInfo, cartItems", cartInfo, cartItems);
+                //console.log("cartService cartInfo, orders", cartInfo, orders);
                 return cartItems;
             })
         };
-        this.getCartItems();
+        this.getOrders();
 
         this.addToCart = function(product) {
             var sendUrl = url + "/" + cartId + "/order";

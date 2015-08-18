@@ -4,13 +4,13 @@ var REMOVE_ITEM = "REMOVE_ITEM";
 angular.module("myApp")
     .factory("cartActions", function(dispatcher) {
         return {
-            addItem: function (item) {
+            addOrder: function (item) {
                 dispatcher.emit({
                     actionType: ADD_ITEM,
                     item: item
                 })
             },
-            removeItem: function(item) {
+            removeOrder: function(item) {
             dispatcher.emit({
                 actionType: REMOVE_ITEM,
                 item: item
@@ -37,45 +37,43 @@ angular.module("myApp")
 
         // CartStore specific STARTS
 
-        var data = {cartItems:[]};
+        var data = {orders:[]};
 
-        this.getCartItems = function() {
-            return data.cartItems;
+        this.getOrders = function() {
+            return data.orders;
         }
 
-        var indexOfItem = function(cartItems, item) {
-       		// console.log("itemAlreadyInCart", cartItems.length, cartItems, item);
-        	for(var i = 0; i < cartItems.length; i++) {
-        		// console.log("itemAlreadyInCart", cartItems[i], item);
-        		if(item.product === cartItems[i].product.product) {
+        var indexOfProductInOrders = function(orders, product) {
+       		// console.log("itemAlreadyInCart", orders.length, orders, product);
+        	for(var i = 0; i < orders.length; i++) {
+        		// console.log("itemAlreadyInCart", orders[i], product);
+        		if(product.product === orders[i].product.product) {
         			return i;
         		}
         	}
         	return -1;
         };
 
-        this.addItem = function(product) {
-            var items = data.cartItems;
-            var index = indexOfItem(items, product);
-            if (index === -1) { 
+        this.addOrder = function(product) {
+            var orders = data.orders;
+            var index = indexOfProductInOrders(orders, product);
+            if (index === -1) { // new product
                 cartService.addToCart(product);
             } else { // is already in cart !!!!!
-                cartService.increaseAmount(items[index]);
+                cartService.increaseAmount(orders[index]);
             }
-            // console.log("this.addItem cartItems", this.cartItems);
+            // console.log("this.addOrder orders", this.orders);
         };
 
-        this.removeItem = function(order) {
-            //var index = data.cartItems.indexOf(cartItem);
-            //data.cartItems.splice(index, 1);
+        this.removeOrder = function(order) {
             cartService.deleteFromCart(order);
         };
 
         this.emitChange = function() {
             var self = this;
-            return cartService.getCartItems().then(function(cartItems) {
-                data.cartItems = cartItems;
-                //console.log("emiting change", data.cartItems);
+            return cartService.getOrders().then(function(cartItems) {
+                data.orders = cartItems;
+                //console.log("emiting change", data.orders);
                 self.emit("change");
             });
         };
@@ -88,12 +86,12 @@ angular.module("myApp")
         dispatcher.addListener(function(action) {
             switch (action.actionType) {
                 case ADD_ITEM:
-                    cartStore.addItem(action.item);
+                    cartStore.addOrder(action.item);
                     cartStore.emitChange();
                     break;
 
                 case REMOVE_ITEM:
-                    cartStore.removeItem(action.item);
+                    cartStore.removeOrder(action.item);
                     cartStore.emitChange();
                     break;
             }
@@ -103,8 +101,8 @@ angular.module("myApp")
         //expose only the public interface
         return {
             addListener: cartStore.addListener,
-            getCartItems: function() {
-                return cartStore.getCartItems();
+            getOrders: function() {
+                return cartStore.getOrders();
             }
         };
     });
